@@ -53,7 +53,8 @@ void usun_atrape_kolumny(zywe **wsk, bool jest_zywa) {
 }
 
 /* Funkcja wczytuje zerowe pokolenie z wejscia */
-wiersze *wczytaj(int *liczba_w, int *liczba_k, int *liczba_zywych, int *pocz_w, int *pocz_k, int *kon_w, int *kon_k) {
+wiersze *wczytaj(int *liczba_w, int *liczba_k, int *liczba_zywych, int *pocz_w,
+                 int *pocz_k, int *kon_w, int *kon_k) {
     wiersze *plansza = malloc(sizeof(wiersze));
     wiersze *pom_w = plansza;
     char c;
@@ -143,13 +144,19 @@ int ile_zywych(zywe *wsk, int j) {
     int zywi = 0;
     if (wsk != NULL) {
         if (wsk->poprz != NULL) {
-            if (wsk->poprz->kolumna >= j - 1 && wsk->poprz->kolumna <= j + 1) zywi++;
-            if (wsk->poprz->poprz != NULL && wsk->poprz->poprz->kolumna >= j - 1 && wsk->poprz->poprz->kolumna <= j + 1) zywi++;
+            if (wsk->poprz->kolumna >= j - 1 && wsk->poprz->kolumna <= j + 1) 
+                zywi++;
+            if (wsk->poprz->poprz != NULL && wsk->poprz->poprz->kolumna >= j - 1
+                && wsk->poprz->poprz->kolumna <= j + 1)
+                zywi++;
         }
         if (wsk->kolumna >= j - 1 && wsk->kolumna <= j + 1) zywi++;
         if (wsk->nast != NULL) {
-            if (wsk->nast->kolumna >= j - 1 && wsk->nast->kolumna <= j + 1) zywi++;
-            if (wsk->nast->nast != NULL && wsk->nast->nast->kolumna >= j - 1 && wsk->nast->nast->kolumna <= j + 1) zywi++;
+            if (wsk->nast->kolumna >= j - 1 && wsk->nast->kolumna <= j + 1)
+                zywi++;
+            if (wsk->nast->nast != NULL && wsk->nast->nast->kolumna >= j - 1
+                && wsk->nast->nast->kolumna <= j + 1)
+                zywi++;
         }
     }
     return zywi;
@@ -163,10 +170,12 @@ bool czy_zywa(zywe *gorna, zywe *srodkowa, zywe *dolna, int j) {
     zywi += ile_zywych(gorna, j);
     zywi += ile_zywych(srodkowa, j);
     zywi += ile_zywych(dolna, j);
-    if (srodkowa != NULL && srodkowa->nast != NULL && srodkowa->nast->kolumna == j) srodkowa = srodkowa->nast;
+    if (srodkowa != NULL && srodkowa->nast != NULL && srodkowa->nast->kolumna == j)
+        srodkowa = srodkowa->nast;
     if (srodkowa != NULL && srodkowa->kolumna == j) {
         zywi--;
-        if (zywi == 2 || zywi == 3) zywa_komorka = true;
+        if (zywi == 2 || zywi == 3)
+            zywa_komorka = true;
     } else if (zywi == 3) zywa_komorka = true;
     return zywa_komorka;
 }
@@ -193,7 +202,8 @@ void zwolnij_liste_wierszy(wiersze *wsk) {
 }
 
 /* Funkcja tworzy nowe pokolenie */
-wiersze *nowe_pokolenie(wiersze *plansza, int *pocz_w, int *pocz_k, int *kon_w, int *kon_k, int *liczba_zywych) {
+wiersze *nowe_pokolenie(wiersze *plansza, int *pocz_w, int *pocz_k, int *kon_w,
+                        int *kon_k, int *liczba_zywych) {
     *liczba_zywych = 0;
     wiersze *nowe = (wiersze *) malloc(sizeof(wiersze));
     wiersze *pom_w = nowe;
@@ -224,9 +234,12 @@ wiersze *nowe_pokolenie(wiersze *plansza, int *pocz_w, int *pocz_k, int *kon_w, 
                 if (gorny != NULL) gorna = gorny->kom;
                 if (srodkowy != NULL) srodkowa = srodkowy->kom;
                 if (dolny != NULL) dolna = dolny->kom;
-                while (gorna != NULL && gorna->kolumna < j - 1) gorna = gorna->nast;
-                while(srodkowa != NULL && srodkowa->kolumna < j - 1) srodkowa = srodkowa->nast;
-                while (dolna != NULL && dolna->kolumna < j - 1) dolna = dolna->nast;
+                while (gorna != NULL && gorna->kolumna < j - 1)
+                    gorna = gorna->nast;
+                while(srodkowa != NULL && srodkowa->kolumna < j - 1)
+                    srodkowa = srodkowa->nast;
+                while (dolna != NULL && dolna->kolumna < j - 1)
+                    dolna = dolna->nast;
                 if (czy_zywa(gorna, srodkowa, dolna, j)) {
                     if (*pocz_w == INT_MAX) *pocz_w = i;
                     *pocz_k = (j < *pocz_k) ? j : *pocz_k;
@@ -255,7 +268,8 @@ wiersze *nowe_pokolenie(wiersze *plansza, int *pocz_w, int *pocz_k, int *kon_w, 
 }
 
 /* Funkcja wypisuje status pokolenia */
-void wypisz_status(int a, int b, int c, int d, int e, int f, int g, int h, int i, int j) {
+void wypisz_status(int a, int b, int c, int d, int e, int f, int g, int h,
+                   int i, int j) {
     if (b == 0) {
         c = 0;
         d = 0;
@@ -284,20 +298,24 @@ void aktualizuj_wspolrzedne_okna(int *g, int *h, int *i, int *j, int w, int x) {
 }
 
 /* Funkcja wczytuje polecenia z wejscia i wykonuje je */
-void rozgrywka(wiersze *plansza, int *pocz_w, int *pocz_k, int *kon_w, int *kon_k, int *liczba_zywych, int liczba_w, int liczba_k) {
+void rozgrywka(wiersze *plansza, int *pocz_w, int *pocz_k, int *kon_w, int *kon_k,
+               int *liczba_zywych, int liczba_w, int liczba_k) {
     wiersze *nowe = NULL;
     int nr_generacji = 0, licznik;
     int g = 1, h = 1, i = liczba_w, j = liczba_k;
     char c;
     wypisz_plansze(plansza, g, h, i, j);
-    wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k, *kon_w, *kon_k, g, h, i, j);
+    wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k, *kon_w,
+                  *kon_k, g, h, i, j);
     while ((c = getchar()) != EOF) {
         if (c == '\n') {
-            nowe = nowe_pokolenie(plansza, pocz_w, pocz_k, kon_w, kon_k, liczba_zywych);
+            nowe = nowe_pokolenie(plansza, pocz_w, pocz_k, kon_w, kon_k,
+                                  liczba_zywych);
             nr_generacji++;
             plansza = nowe;
             wypisz_plansze(plansza, g, h, i, j);
-            wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k, *kon_w, *kon_k, g, h, i, j);
+            wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k,
+                          *kon_w, *kon_k, g, h, i, j);
         } else {
             ungetc(c, stdin);
             int w = 0, x = 0, y = 0, z = 0;
@@ -308,23 +326,27 @@ void rozgrywka(wiersze *plansza, int *pocz_w, int *pocz_k, int *kon_w, int *kon_
             zapisz_liczbe(&c, &z, &licznik);
             if (licznik == 1) {
                 for (int i = 0; i < w; i++) {
-                    nowe = nowe_pokolenie(plansza, pocz_w, pocz_k, kon_w, kon_k, liczba_zywych);
+                    nowe = nowe_pokolenie(plansza, pocz_w, pocz_k, kon_w,
+                                          kon_k, liczba_zywych);
                     nr_generacji++;
                     plansza = nowe;
                 }
                 wypisz_plansze(plansza, g, h, i, j);
-                wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k, *kon_w, *kon_k, g, h, i, j);
+                wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k,
+                              *kon_w, *kon_k, g, h, i, j);
             } else if (licznik == 2) {
                 aktualizuj_wspolrzedne_okna(&g, &h, &i, &j, w, x);
                 wypisz_plansze(plansza, g, h, i, j);
-                wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k, *kon_w, *kon_k, g, h, i, j);
+                wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k,
+                              *kon_w, *kon_k, g, h, i, j);
             } else if (licznik == 4) {
                 g = w;
                 h = x;
                 i = y;
                 j = z;
                 wypisz_plansze(plansza, g, h, i, j);
-                wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k, *kon_w, *kon_k, g, h, i, j);
+                wypisz_status(nr_generacji, *liczba_zywych, *pocz_w, *pocz_k,
+                              *kon_w, *kon_k, g, h, i, j);
             }
         }
     }
@@ -333,8 +355,12 @@ void rozgrywka(wiersze *plansza, int *pocz_w, int *pocz_k, int *kon_w, int *kon_
 
 int main(void) {
     int liczba_w = 0, liczba_k = 0;
-    int pocz_w = INT_MAX, pocz_k = INT_MAX, kon_w = INT_MIN, kon_k = INT_MIN; /* pocz_w - pierwszy wiersz zawierajacy zywa komorke, kon_w - ostatni taki wiersz (odpowiednio dla kolumn) */
+    /* pocz_w - pierwszy wiersz zawierajacy zywa komorke,
+       kon_w - ostatni taki wiersz (odpowiednio dla kolumn) */
+    int pocz_w = INT_MAX, pocz_k = INT_MAX, kon_w = INT_MIN, kon_k = INT_MIN;
     int liczba_zywych = 0;
-    wiersze *plansza = wczytaj(&liczba_w, &liczba_k, &liczba_zywych, &pocz_w, &pocz_k, &kon_w, &kon_k);
-    rozgrywka(plansza, &pocz_w, &pocz_k, &kon_w, &kon_k, &liczba_zywych, liczba_w, liczba_k);
+    wiersze *plansza = wczytaj(&liczba_w, &liczba_k, &liczba_zywych, &pocz_w,
+                               &pocz_k, &kon_w, &kon_k);
+    rozgrywka(plansza, &pocz_w, &pocz_k, &kon_w, &kon_k, &liczba_zywych,
+              liczba_w, liczba_k);
 }
