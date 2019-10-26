@@ -66,19 +66,23 @@ Polecenie składa się z ciągu liczb całkowitych, rozdzielonych pojedynczymi s
 
 Rozpoznajemy polecenia postaci:
 
-- polecenie puste,
+- polecenie puste
+
 Oblicz i wypisz następną generację.
 
-- jedna, nieujemna, liczba całkowita N,
+- jedna, nieujemna, liczba całkowita N
+
 Oblicz i wypisz N-tą kolejną generację.
 Polecenie puste jest więc równoważne poleceniu 1.
 
-- dwie liczby całkowite A B,
+- dwie liczby całkowite A B
+
 Zmień dwie pierwsze współrzędne okna, czyli współrzędne lewego górnego rogu, na A B.
 Jednocześnie zaktualizuj dwie pozostałe współrzędne okna, czyli współrzędne prawego dolnego rogu tak, rozmiar okna się nie zmienił.
 Po zmianie okna, wypisz aktualną generację.
 
 - cztery liczby całkowite A B C D
+
 Zmień współrzędne okna na A B C D.
 Po zmianie okna, wypisz aktualną generację.
 Polecenia zmiany okna nie powodują obliczenia kolejnej generacji.
